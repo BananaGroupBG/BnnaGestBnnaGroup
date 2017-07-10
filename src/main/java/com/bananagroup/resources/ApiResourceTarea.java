@@ -34,16 +34,13 @@ public class ApiResourceTarea {
 	}
 
 	// Obtener lista de tareas/ GET / Tarea
-	@Path("/")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Tarea> getTaskList() {
 		return this.lasTareas;
 	}
 
 	// Insertar tarea/ POST / Tarea
-	@Path("/")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

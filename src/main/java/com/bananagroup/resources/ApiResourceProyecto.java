@@ -15,7 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("/proyecto")
+@Path("/proyectos")
 public class ApiResourceProyecto {
 	private static List<Proyecto> listaProyectos;
 
@@ -27,7 +27,6 @@ public class ApiResourceProyecto {
 	}
 
 	/* GET /proyectos */
-	@Path("/")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Proyecto> getProjectList() {
@@ -35,12 +34,11 @@ public class ApiResourceProyecto {
 	}
 
 	/* POST /proyectos */
-	@Path("/")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Message insertProject(Proyecto nuevoProyecto) {
-		this.listaProyectos.add(nuevoProyecto);
+		listaProyectos.add(nuevoProyecto);
 		return new Message("Proyecto añadido");
 	}
 
@@ -81,7 +79,6 @@ public class ApiResourceProyecto {
 	/* DELETE /Proyectos */
 	@Path("/{pid}")
 	@DELETE
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Message deleteProject(@PathParam("pid") int pid) {
 		for (Proyecto proyecto : listaProyectos) {
