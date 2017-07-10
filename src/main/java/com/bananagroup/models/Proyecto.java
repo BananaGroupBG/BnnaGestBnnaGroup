@@ -31,6 +31,8 @@ public class Proyecto {
 		this.listaTareas = listaTareas;
 	}
 
+	public Proyecto() {}
+
 	public int getPid() {
 		return pid;
 	}

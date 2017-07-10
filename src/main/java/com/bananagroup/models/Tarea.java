@@ -13,12 +13,12 @@ public class Tarea {
 		this.responsable = responsable;
 	}
 
-	public int getIdTarea() {
+	public int getTid() {
 		return tid;
 	}
 
-	public void setIdTarea(int idTarea) {
-		this.tid = idTarea;
+	public void setTid(int tid) {
+		this.tid = tid;
 	}
 
 	public String getDescripcion() {
