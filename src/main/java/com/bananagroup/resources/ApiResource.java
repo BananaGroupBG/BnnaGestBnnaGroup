@@ -110,11 +110,8 @@ public class ApiResource {
 		lasTareas.add(new Tarea(2, "Tarea de ventas", null));
 		lasTareas.add(new Tarea(1, "Tarea de comprobacion de stoks", null));
 	}
-	// ----FIN Mockeado de datos
-	// ------------------------------------------------------
 
-	// ----METODOS GENERICOS DE Task:-----------------
-	/* GET|POST /task */
+	// Obtener lista de tareas/ GET / Tarea
 	@Path("/")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -123,6 +120,7 @@ public class ApiResource {
 		return this.lasTareas;
 	}
 
+	// Insertar tarea/ POST / Tarea
 	@Path("/")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -131,12 +129,8 @@ public class ApiResource {
 		this.lasTareas.add(nuevaTarea);
 		return new Message("Tarea añadida");
 	}
-	// ----FIN METODOS GENERICOS DE Task:-----------------
 
-	// ----METODOS Particulares DE Task/tid yo la llamé
-	// idTarea:-----------------
-	/* GET|PUT|DELETE /tareas/{tid} */
-	// 1-.Obtener tarea/tid
+	// 1-.Obtener tarea/tid GET/ Tarea
 	@Path("/{tid}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -150,5 +144,38 @@ public class ApiResource {
 			}
 		}
 		return unaTarea;
+	}
+
+	/* Actualizar tarea / PUT /Tarea */
+	@Path("/{tid}")
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Message updateTask(@PathParam("tid") int tid, Tarea aTarea) {
+		for (Tarea tarea : lasTareas) {
+			if (tarea.getTid() == tid) {
+				lasTareas.remove(tarea);
+				lasTareas.add(aTarea);
+				break;
+			}
+		}
+
+		return new Message("Tarea modificada");
+	}
+
+	/* Borrar tarea / DELETE /Tarea */
+	@Path("/{tid}")
+	@DELETE
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Message deleteTask(@PathParam("tid") int tid) {
+		for (Tarea tarea : lasTareas) {
+			if (tarea.getTid() == tid) {
+				lasTareas.remove(tarea);
+				break;
+			}
+		}
+
+		return new Message("Tarea borrada");
 	}
 }
