@@ -2,9 +2,9 @@
 <!DOCTYPE Context>
 <Context>
     <!-- Specify a JDBC datasource -->
-    <Resource name="jdbc/bananadb" auth="Container"
-        type="javax.sql.DataSource" username="bananauser" password="123"
+    <Resource name="jdbc/bananagroupmaven" auth="Container"
+        type="javax.sql.DataSource" username="root" password="root"
         driverClassName="com.mysql.jdbc.Driver"
-        url="jdbc:mysql://172.27.100.138/banana_db?SSL=false"
+        url="jdbc:mysql://172.27.100.138/bananagroupmaven?SSL=false"
         maxActive="10" maxIdle="4" />
 </Context>
