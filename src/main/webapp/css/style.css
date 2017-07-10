@@ -1,0 +1,28 @@
+ ul h4 {
+    padding-left: 10px;
+}
+
+#nav1 {
+    height: 110px;
+    line-height: 110px;
+    background-color: #35b9fc;
+}
+
+#nav2 {
+    height: 70px;
+    line-height: 70px;
+    background-color: #18aaf4;
+}
+
+body {
+    background-color: #f7f8ff;
+}
+
+footer.page-footer {
+    background-color: #18aaf4;
+}
+
+#perfil {
+    padding: 1px;
+    margin: 5px;
+}

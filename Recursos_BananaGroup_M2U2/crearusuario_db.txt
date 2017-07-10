@@ -1,0 +1,8 @@
+CREATE USER 'bananauser'@'%' IDENTIFIED BY '123';
+GRANT ALL PRIVILEGES ON banana_db.* TO 'bananauser'@'%';
+FLUSH PRIVILEGES;
+
+exit;
+
+mysql -u bananauser -p;
+123
