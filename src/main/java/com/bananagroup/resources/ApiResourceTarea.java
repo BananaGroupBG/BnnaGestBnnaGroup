@@ -15,7 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("/tarea")
+@Path("/tareas")
 public class ApiResourceTarea {
 	private static List<Tarea> lasTareas;
 
@@ -30,7 +30,7 @@ public class ApiResourceTarea {
 		// attributos: id,desc,resp:
 		lasTareas.add(new Tarea(1, "Tarea de compras", null));
 		lasTareas.add(new Tarea(2, "Tarea de ventas", null));
-		lasTareas.add(new Tarea(1, "Tarea de comprobacion de stoks", null));
+		lasTareas.add(new Tarea(3, "Tarea de comprobacion de stoks", null));
 	}
 
 	// Obtener lista de tareas/ GET / Tarea
@@ -84,8 +84,7 @@ public class ApiResourceTarea {
 
 	/* Borrar tarea / DELETE /Tarea */
 	@Path("/{tid}")
-	@DELETE
-	@Consumes(MediaType.APPLICATION_JSON)
+	@DELETE	
 	@Produces(MediaType.APPLICATION_JSON)
 	public Message deleteTask(@PathParam("tid") int tid) {
 		for (Tarea tarea : lasTareas) {

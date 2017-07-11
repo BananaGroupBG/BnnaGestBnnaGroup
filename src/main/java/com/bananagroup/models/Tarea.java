@@ -13,6 +13,9 @@ public class Tarea {
 		this.responsable = responsable;
 	}
 
+	public Tarea() {}
+
+	
 	public int getTid() {
 		return tid;
 	}

@@ -22,7 +22,8 @@ public class ApiResourceProyecto {
 	static {
 		listaProyectos = new ArrayList<Proyecto>();
 
-		listaProyectos.add(new Proyecto(0, "tit", "des", null, null, false, null));
+		listaProyectos.add(new Proyecto(1, "tit1", "des1", null, null, false, null));
+		listaProyectos.add(new Proyecto(2, "tit2", "des2", null, null, false, null));
 
 	}
 
