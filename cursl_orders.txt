@@ -1,0 +1,52 @@
+-- GET
+.\curl.exe http://localhost:8080/BananaGest/rest/proyectos
+
+-- POST
+.\curl.exe -X POST -H "Content-Type: application/json" -d {\"pid\":33,\"responsable\":null,\"listaTareas\":null,\"titulo\":\"titulo33\",\"descripcion\":\"des33\",\"fechaI\":null,\"activo\":false} http://localhost:8080/BananaGest/rest/proyectos
+
+-- PUT
+.\curl.exe -X PUT -H "Content-Type: application/json" -d {\"pid\":331,\"responsable\":null,\"listaTareas\":null,\"titulo\":\"titulo33\",\"descripcion\":\"des33\",\"fechaI\":null,\"activo\":false} http://localhost:8080/BananaGest/rest/proyectos/33
+
+-- DELETE
+.\curl.exe -X DELETE http://localhost:8080/BananaGest/rest/proyectos/331
+
+
+----
+
+-- GET
+.\curl.exe http://localhost:8080/BananaGest/rest/tareas
+
+-- POST
+.\curl.exe -X POST -H "Content-Type: application/json" -d "{\"tid\":33,\"descripcion\":\"Tarea de compras\",\"responsable\":null}" http://localhost:8080/BananaGest/rest/tareas
+
+-- PUT
+.\curl.exe -X PUT -H "Content-Type: application/json" -d "{\"tid\":331,\"descripcion\":\"Tarea de compras\",\"responsable\":null}" http://localhost:8080/BananaGest/rest/tareas/33
+
+
+-- DELETE
+.\curl.exe -X DELETE http://localhost:8080/BananaGest/rest/tareas/331
+
+
+-git clone ruta git- situar en carpeta
+
+importar en eclipse
+
+-subir lo modificado
+
+git status para ver lo modificado
+
+-añadir mis modificaciones
+
+{\"tid\":1,\"responsable\":null,\"descripcion\":\"Tarea de compras\"}
+
+git add dirección lo que quieras añadir
+
+git commit -m "comenetario"
+
+sube al repositorio
+
+git push se sube al escritorio remoto
+
+bajar actualizaciones
+
+git pull
