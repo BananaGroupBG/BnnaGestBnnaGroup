@@ -28,9 +28,9 @@ public class ApiResourceTarea {
 		// BBDD:
 		// Los voy addicionando=add a la lista lasTAreas. Definicion de los
 		// attributos: id,desc,resp:
-		lasTareas.add(new Tarea(1, "Tarea de compras", null));
-		lasTareas.add(new Tarea(2, "Tarea de ventas", null));
-		lasTareas.add(new Tarea(3, "Tarea de comprobacion de stoks", null));
+		lasTareas.add(new Tarea(1, "Tarea de compras", null, null));
+		lasTareas.add(new Tarea(2, "Tarea de ventas", null, null));
+		lasTareas.add(new Tarea(3, "Tarea de comprobacion de stoks", null, null));
 	}
 
 	// Obtener lista de tareas/ GET / Tarea
@@ -55,7 +55,7 @@ public class ApiResourceTarea {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Tarea getTask(@PathParam("tid") int tid) {
 
-		Tarea unaTarea = new Tarea(0, null, null);
+		Tarea unaTarea = new Tarea(0, null, null, null);
 		for (Tarea taska : lasTareas) {
 			if (taska.getTid() == tid) {
 				unaTarea = taska;
