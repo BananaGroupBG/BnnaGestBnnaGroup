@@ -6,8 +6,6 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.bananagroup.models.Proyecto;
-import com.rcallejas.models.Departamento;
-import com.rcallejas.models.Employee;
 
 public class ManagerProyecto {
 
@@ -63,12 +61,12 @@ public class ManagerProyecto {
 		Session session = factory.openSession();
 		
 		Transaction t = session.beginTransaction();
-		Employee elEmpleado =  session.get(Employee.class,eid);
+		Proyecto elProyecto =  session.get(Proyecto.class,pid);
 		
 		t.commit();// transaction is commited
 		session.close();
 		
-		return elEmpleado;
+		return elProyecto;
 	}
 	//----------- fin practica 03 ---------
 	

@@ -42,7 +42,7 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 			if (rs.next()) {
 
 				proyectoADevolver = new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"),
-						rs.getDate("fecha_inicio"), null, rs.getBoolean("activo"),
+						rs.getDate("fechaI"), null, rs.getBoolean("activo"),
 						new Tarea(rs.getInt("tid"), rs.getString("descripcion"), new Usuario(rs.getInt("uid"),
 								rs.getString("nombre"), rs.getString("email"), rs.getString("password"))));
 			}
@@ -93,7 +93,7 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 
 			while (rs.next()) {
 				listADevolver.add(
-						new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"), rs.getDate("fecha_inicio"), null, rs.getBoolean("activo"), null)
+						new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"), rs.getDate("fechaI"), null, rs.getBoolean("activo"), null)
 						/*new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"),
 						rs.getDate("fecha_inicio"), null, rs.getboolean("activo"),
 						new Tarea(rs.getInt("tid"), rs.getString("descripcion"), 

@@ -24,7 +24,7 @@ public class DAO {
 		try {
 			Context initContext = new InitialContext();
 			Context envContext = (Context) initContext.lookup("java:/comp/env");
-			this.datasource = (DataSource) envContext.lookup("jdbc/bananadb");
+			this.datasource = (DataSource) envContext.lookup("jdbc/bananagroupmaven");
 		} catch (Exception e) {
 			logger.info("Error al instanciar el Datasource!!!!");
 			e.printStackTrace();
