@@ -5,9 +5,9 @@ public class Tarea {
 	private int tid;
 	private String descripcion;
 	private Usuario responsable;
-	private int proyecto_padre;
+	private Proyecto proyecto_padre;
 
-	public Tarea(int tid, String descripcion, Usuario responsable, int proyecto_padre) {
+	public Tarea(int tid, String descripcion, Usuario responsable, Proyecto proyecto_padre) {
 		// Inicializacion de los atributos de Tarea
 		this.tid = tid;
 		this.descripcion = descripcion;
@@ -43,11 +43,11 @@ public class Tarea {
 		this.responsable = responsable;
 	}
 	
-	public int getProyecto_padre() {
+	public Proyecto getProyecto_padre() {
 		return proyecto_padre;
 	}
 
-	public void setProyecto_padre(int proyecto_padre) {
+	public void setProyecto_padre(Proyecto proyecto_padre) {
 		this.proyecto_padre = proyecto_padre;
 	}
 
