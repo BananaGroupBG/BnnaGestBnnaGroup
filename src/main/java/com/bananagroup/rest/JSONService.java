@@ -28,11 +28,12 @@ import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.lang.JoseException;
 
-import com.netmind.DAO.DAOFactory;
-import com.netmind.DAO.UsuarioDAO;
-import com.netmind.modelos.StatusMessage;
-import com.netmind.modelos.Usuario;
+import com.bananagroup.db.DAOFactory;
+import com.bananagroup.db.UsuarioDAO;
+import com.bananagroup.models.StatusMessage;
+import com.bananagroup.models.Usuario;
 import com.sun.jersey.api.client.ClientResponse.Status;
+
 
 @Path("/json")
 public class JSONService {
