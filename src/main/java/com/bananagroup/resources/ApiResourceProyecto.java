@@ -19,14 +19,6 @@ import javax.ws.rs.core.MediaType;
 public class ApiResourceProyecto {
 	private static List<Proyecto> listaProyectos;
 
-	static {
-		listaProyectos = new ArrayList<Proyecto>();
-
-		listaProyectos.add(new Proyecto(1, "tit1", "des1", null, null, false, null));
-		listaProyectos.add(new Proyecto(2, "tit2", "des2", null, null, false, null));
-
-	}
-
 	/* GET /proyectos */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

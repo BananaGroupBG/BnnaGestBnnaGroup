@@ -89,7 +89,7 @@ public final class TareaDAOImpl extends TareaDAO {
 						new Usuario(rs.getInt("uid"), rs.getString("nombre"), rs.getString("email"),
 								rs.getString("password")),
 						new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"),
-								rs.getDate("fechaI"), null, rs.getBoolean("activo"), null)));
+								rs.getDate("fechaI"), null, rs.getString("activo"), null)));
 
 			}
 
