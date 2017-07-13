@@ -111,7 +111,7 @@ public class JSONService {
 		claims.setNotBeforeMinutesInThePast(2); // time before which the token
 												// is not yet valid (2 minutes
 												// ago)
-		claims.setSubject(user.getEmail()); // the subject/principal is whom
+		claims.setSubject(""+user.getUid()); // the subject/principal is whom
 											// the token is about
 		claims.setStringListClaim("roles", "client"); //
 		// multi-valued claims for roles
@@ -134,45 +134,14 @@ public class JSONService {
 		return Response.status(200).entity(jwt).build();
 	}
 
-	@GET
-	@Path("/owndata")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getOwnData(@HeaderParam("token") String token) {
-		logger.log(Level.INFO, "token:" + token);
-		String userEmail = "";
-
-		userEmail = this.getUserEmailFromToken(token);
-
-		if (userEmail == null) {
-			StatusMessage statusMessage = new StatusMessage();
-			statusMessage.setStatus(Status.FORBIDDEN.getStatusCode());
-			statusMessage.setMessage("Access Denied for this functionality !!!");
-			return Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
-		}
-
-		Usuario user = null;
-		UsuarioDAO userDAO;
-		int uid = 0;
-
-		try {
-			userDAO = (UsuarioDAO) DAOFactory.getDAO("usuario");
-			user = userDAO.getUsuario("email","password"); // Pregunta cual és de
-														// los get de UsuarioDAO
-														// ?¿
-			uid = user.getUid();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return Response.status(200).entity(user).build();
-	}
+	
 
 	/* AUX */
-	private String getUserEmailFromToken(String token) {
+	protected int getUserUidFromToken(String token) {
 		if (token == null)
-			return null;
+			return 0;
 
-		String userEmail = null;
+		int userUid= 0;
 
 		try {
 
@@ -188,12 +157,12 @@ public class JSONService {
 			// Validate the JWT and process it to the Claims
 			JwtClaims jwtClaims = jwtConsumer.processToClaims(token);
 			logger.log(Level.INFO, "JWT validation succeeded! " + jwtClaims.getSubject().toString());
-			userEmail = jwtClaims.getSubject().toString();
+			userUid = new  Integer(jwtClaims.getSubject().toString()).intValue();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return userEmail;
+		return userUid;
 	}
 
 }

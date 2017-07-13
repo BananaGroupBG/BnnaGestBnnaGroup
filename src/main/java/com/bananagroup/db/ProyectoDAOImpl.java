@@ -58,31 +58,38 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 
 	@Override
 	public boolean delProyecto(int pid) {
-		Proyecto proyectoABorrar = null;
 
 		try {
 			Connection conn = this.datasource.getConnection();
 
-			String sql = "";
+			String sql = "DELETE t.* FROM tarea t, proyecto p WHERE proyecto_padre=?";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, pid);
 			ResultSet rs = pstm.executeQuery();
 			// ----------------------
 			pstm.close();
+
+			sql = "DELETE p.* FROM proyecto p WHERE pid=?";
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, pid);
+			rs = pstm.executeQuery();
+			// ----------------------
+			pstm.close();
+			// ----------------------
 			conn.close();
 
 			logger.info("Conexión exitosa");
-
+			
 		} catch (Exception e) {
 			logger.severe("Error en la conexión de BBDD:" + e);
-			proyectoABorrar = null;
+			return false;
 		}
+		logger.info("Proyecto y tareas borrado/as");
 		return true;
 	}
 
 	@Override
 	public boolean insertProyecto(Proyecto proyecto) {
-		Proyecto proyectoAInsertar = null;
 
 		try {
 			Connection conn = this.datasource.getConnection();
@@ -103,7 +110,7 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 
 		} catch (Exception e) {
 			logger.severe("Error en la conexión de BBDD:" + e);
-			proyectoAInsertar = null;
+			return false;
 		}
 		return true;
 	}

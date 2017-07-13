@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import org.apache.tomcat.dbcp.dbcp2.PStmtKey;
+
 import com.bananagroup.models.Proyecto;
 import com.bananagroup.models.Tarea;
 import com.bananagroup.models.Usuario;
@@ -57,7 +59,34 @@ public final class TareaDAOImpl extends TareaDAO {
 
 	@Override
 	public boolean delTarea(int tid) {
-		return false;
+		
+		try {
+			Connection conn = this.datasource.getConnection();
+						
+			String sql="";
+			
+			conn.setAutoCommit(false);
+			
+			// ordenes sql
+			sql = "DELETE t.* FROM tarea t WHERE t.tid=? LIMIT 1";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, tid);
+
+			ResultSet rs = pstm.executeQuery();
+
+			if (rs.next()) {
+			
+				pstm.close();
+				conn.close();
+
+				logger.info("Tarea borrada");
+			}
+		} catch (Exception e) {
+			logger.severe("Error en la conexión de BBDD:" + e);
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
