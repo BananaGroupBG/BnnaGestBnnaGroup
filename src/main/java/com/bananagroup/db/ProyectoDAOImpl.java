@@ -54,24 +54,77 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 			logger.severe("Error en la conexión de BBDD:" + e);
 			proyectoADevolver = null;
 		}
-
 		return proyectoADevolver;
 	}
 
 	@Override
 	public boolean delProyecto(int pid) {
+		Proyecto proyectoABorrar = null;
 
-		return false;
+		try {
+			Connection conn = this.datasource.getConnection();
+
+			String sql = "";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, pid);
+			ResultSet rs = pstm.executeQuery();
+			// ----------------------
+			pstm.close();
+			conn.close();
+
+			logger.info("Conexión exitosa");
+
+		} catch (Exception e) {
+			logger.severe("Error en la conexión de BBDD:" + e);
+			proyectoABorrar = null;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean insertProyecto(Proyecto proyecto) {
-		return false;
+		Proyecto proyectoAInsertar = null;
+
+		try {
+			Connection conn = this.datasource.getConnection();
+
+			String sql = "";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			// ----------------------
+			pstm.close();
+			conn.close();
+
+			logger.info("Conexión exitosa");
+
+		} catch (Exception e) {
+			logger.severe("Error en la conexión de BBDD:" + e);
+			proyectoAInsertar = null;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean updateProyecto(Proyecto proyecto) {
-		return false;
+		Proyecto proyectoASubir = null;
+
+		try {
+			Connection conn = this.datasource.getConnection();
+
+			String sql = "";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			// ----------------------
+			pstm.close();
+			conn.close();
+
+			logger.info("Conexión exitosa");
+
+		} catch (Exception e) {
+			logger.severe("Error en la conexión de BBDD:" + e);
+			proyectoASubir = null;
+		}
+		return true;
 	}
 
 	@Override
