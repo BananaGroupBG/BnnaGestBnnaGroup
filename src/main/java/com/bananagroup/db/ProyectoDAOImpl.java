@@ -88,7 +88,7 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 		try {
 			Connection conn = this.datasource.getConnection();
 
-			String sql = "";
+			String sql = "INSERT INTO proyecto VALUES (?,?,?,?,?,?);";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			ResultSet rs = pstm.executeQuery();
 			// ----------------------
@@ -111,7 +111,7 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 		try {
 			Connection conn = this.datasource.getConnection();
 
-			String sql = "";
+			String sql = "UPDATE proyecto p SET p.titulo="e",p.descripcion="d" WHERE p.pid=11;";// Preguntar: como hacer updates de 1 dato
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			ResultSet rs = pstm.executeQuery();
 			// ----------------------

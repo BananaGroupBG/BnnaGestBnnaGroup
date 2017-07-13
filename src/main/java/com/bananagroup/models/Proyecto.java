@@ -9,7 +9,7 @@ public class Proyecto {
 	private String descripcion;
 	private Date fechaI;
 	private Usuario responsable;
-	private boolean activo;
+	private String activo;
 	private Tarea listaTareas;
 	// private Tarea[] tareasPy; //define un Array de las tareas del proyecto.
 	// Cada tarea se define con su claseModelo Tarea.java PERO NO LA PRESENTAMOS
@@ -19,7 +19,7 @@ public class Proyecto {
 	// Date fechaInicioPy, String responsablePy, boolean activoPy, Tarea[]
 	// tareas) {
 
-	public Proyecto(int pid, String titulo, String descripcion, Date fechaI, Usuario responsable, boolean activo,
+	public Proyecto(int pid, String titulo, String descripcion, Date fechaI, Usuario responsable, String activo,
 			Tarea listaTareas) {
 		// Inicializacion de los atributos de Proyecto
 		this.pid = pid;
@@ -73,11 +73,11 @@ public class Proyecto {
 		this.responsable = responsable;
 	}
 
-	public boolean getActivo() {
+	public String getActivo() {
 		return activo;
 	}
 
-	public void setActivo(boolean activo) {
+	public void setActivo(String activo) {
 		this.activo = activo;
 	}
 
