@@ -16,7 +16,6 @@ import com.bananagroup.models.Usuario;
 public final class ProyectoDAOImpl extends ProyectoDAO {
 	private static Logger logger = Logger.getLogger("ProyectoDAOImpl");
 
-	
 	private static ProyectoDAOImpl instance = null;
 
 	public static ProyectoDAOImpl getInstance() {
@@ -42,9 +41,8 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 			if (rs.next()) {
 
 				proyectoADevolver = new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"),
-						rs.getDate("fechaI"), null, rs.getBoolean("activo"),
-						new Tarea(rs.getInt("tid"), rs.getString("descripcion"), new Usuario(rs.getInt("uid"),
-								rs.getString("nombre"), rs.getString("email"), rs.getString("password"))));
+						rs.getDate("fechaI"), null, rs.getBoolean("activo"), null);
+
 			}
 
 			pstm.close();
@@ -62,6 +60,7 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 
 	@Override
 	public boolean delProyecto(int pid) {
+
 		return false;
 	}
 
@@ -80,28 +79,29 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 		List<Proyecto> listADevolver = new ArrayList<Proyecto>();
 
 		try {
-			logger.info("datasource:"+this.datasource);
-			
+			logger.info("datasource:" + this.datasource);
+
 			Connection conn = this.datasource.getConnection();
 
 			// ordenes sql
-			String sql ="SELECT p.* FROM proyecto p, usuario u WHERE p.responsable=?";
+			String sql = "SELECT p.* FROM proyecto p, usuario u WHERE p.responsable=?";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, uid);
 
 			ResultSet rs = pstm.executeQuery();
 
 			while (rs.next()) {
-				listADevolver.add(
-						new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"), rs.getDate("fechaI"), null, rs.getBoolean("activo"), null)
-						/*new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"),
-						rs.getDate("fecha_inicio"), null, rs.getboolean("activo"),
-						new Tarea(rs.getInt("tid"), rs.getString("descripcion"), 
-								new Usuario(rs.getInt("uid"),rs.getString("nombre"), rs.getString("email"), rs.getString("password")
-							)
-						)
-					)*/
-			);
+				listADevolver.add(new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"),
+						rs.getDate("fechaI"), null, rs.getBoolean("activo"), null)
+				/*
+				 * new Proyecto(rs.getInt("pid"), rs.getString("titulo"),
+				 * rs.getString("descripcion"), rs.getDate("fecha_inicio"),
+				 * null, rs.getboolean("activo"), new Tarea(rs.getInt("tid"),
+				 * rs.getString("descripcion"), new
+				 * Usuario(rs.getInt("uid"),rs.getString("nombre"),
+				 * rs.getString("email"), rs.getString("password") ) ) )
+				 */
+				);
 			}
 
 			pstm.close();
@@ -121,7 +121,6 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 
 	@Override
 	public List<Proyecto> getProyectosOptions() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

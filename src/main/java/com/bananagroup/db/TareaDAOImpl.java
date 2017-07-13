@@ -41,14 +41,12 @@ public final class TareaDAOImpl extends TareaDAO {
 
 			if (rs.next()) {
 
-				tareaADevolver = new Tarea(rs.getInt("tid"), rs.getString("descripcion"), new Usuario(rs.getInt("uid"),
-						rs.getString("nombre"), rs.getString("email"), rs.getString("password")));
+				tareaADevolver = new Tarea(rs.getInt("tid"), rs.getString("descripcion"), null, null);
+				pstm.close();
+				conn.close();
+
+				logger.info("Conexión exitosa");
 			}
-			pstm.close();
-			conn.close();
-
-			logger.info("Conexión exitosa");
-
 		} catch (Exception e) {
 			logger.severe("Error en la conexión de BBDD:" + e);
 			tareaADevolver = null;
@@ -87,8 +85,11 @@ public final class TareaDAOImpl extends TareaDAO {
 			ResultSet rs = pstm.executeQuery();
 
 			while (rs.next()) {
-				listADevolver.add(new Tarea(rs.getInt("tid"), rs.getString("descripcion"), new Usuario(rs.getInt("uid"),
-						rs.getString("nombre"), rs.getString("email"), rs.getString("password"))));
+				listADevolver.add(new Tarea(rs.getInt("tid"), rs.getString("descripcion"),
+						new Usuario(rs.getInt("uid"), rs.getString("nombre"), rs.getString("email"),
+								rs.getString("password")),
+						new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"),
+								rs.getDate("fechaI"), null, rs.getBoolean("activo"), null)));
 
 			}
 
