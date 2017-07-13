@@ -15,5 +15,4 @@ public abstract class ProyectoDAO extends DAO {
 
 	public abstract List<Proyecto> getUserProyectos(int uid);
 
-	public abstract List<Proyecto> getProyectosOptions();
 }

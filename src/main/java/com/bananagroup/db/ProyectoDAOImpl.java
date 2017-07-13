@@ -7,10 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.sql.DataSource;
-
 import com.bananagroup.models.Proyecto;
-import com.bananagroup.models.Tarea;
 import com.bananagroup.models.Usuario;
 
 public final class ProyectoDAOImpl extends ProyectoDAO {
@@ -41,7 +38,9 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 			if (rs.next()) {
 
 				proyectoADevolver = new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"),
-						rs.getDate("fechaI"), null, rs.getBoolean("activo"), null);
+						rs.getDate("fechaI"),
+						new Usuario(rs.getInt("uid"), rs.getString("nombre"), rs.getString("email"), null),
+						rs.getString("activo"), null);
 
 			}
 
@@ -88,8 +87,13 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 		try {
 			Connection conn = this.datasource.getConnection();
 
-			String sql = "INSERT INTO proyecto VALUES (?,?,?,?,?,?);";
+			String sql = "INSERT INTO proyecto VALUES (?,?,?,?,?);";
 			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setString(1, "titulo");
+			pstm.setString(2, "descripcion");
+			pstm.setString(3, "fechaI");
+			pstm.setString(4, "responsable");
+			pstm.setString(5, "activo");
 			ResultSet rs = pstm.executeQuery();
 			// ----------------------
 			pstm.close();
@@ -106,13 +110,22 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 
 	@Override
 	public boolean updateProyecto(Proyecto proyecto) {
-		Proyecto proyectoASubir = null;
 
 		try {
 			Connection conn = this.datasource.getConnection();
 
-			String sql = "UPDATE proyecto p SET p.titulo="e",p.descripcion="d" WHERE p.pid=11;";// Preguntar: como hacer updates de 1 dato
+			String sql = "UPDATE proyecto p SET p.titulo=?,p.descripcion=?,p.fechaI=?,p.responsable=?,p.activo=? WHERE p.pid=?";// 1
+																																// Solo
+																																// cambio
+
 			PreparedStatement pstm = conn.prepareStatement(sql);
+
+			pstm.setString(1, "titulo");
+			pstm.setString(2, "descripcion");
+			pstm.setString(3, "fechaI");
+			pstm.setString(4, "responsable");
+			pstm.setString(5, "activo");
+
 			ResultSet rs = pstm.executeQuery();
 			// ----------------------
 			pstm.close();
@@ -122,7 +135,7 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 
 		} catch (Exception e) {
 			logger.severe("Error en la conexión de BBDD:" + e);
-			proyectoASubir = null;
+			return false;
 		}
 		return true;
 	}
@@ -132,7 +145,6 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 		List<Proyecto> listADevolver = new ArrayList<Proyecto>();
 
 		try {
-			logger.info("datasource:" + this.datasource);
 
 			Connection conn = this.datasource.getConnection();
 
@@ -145,16 +157,9 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 
 			while (rs.next()) {
 				listADevolver.add(new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"),
-						rs.getDate("fechaI"), null, rs.getBoolean("activo"), null)
-				/*
-				 * new Proyecto(rs.getInt("pid"), rs.getString("titulo"),
-				 * rs.getString("descripcion"), rs.getDate("fecha_inicio"),
-				 * null, rs.getboolean("activo"), new Tarea(rs.getInt("tid"),
-				 * rs.getString("descripcion"), new
-				 * Usuario(rs.getInt("uid"),rs.getString("nombre"),
-				 * rs.getString("email"), rs.getString("password") ) ) )
-				 */
-				);
+						rs.getDate("fechaI"),
+						new Usuario(rs.getInt("uid"), rs.getString("nombre"), rs.getString("email"), null),
+						rs.getString("activo"), null));
 			}
 
 			pstm.close();
@@ -172,8 +177,4 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 		return listADevolver;
 	}
 
-	@Override
-	public List<Proyecto> getProyectosOptions() {
-		return null;
-	}
 }
