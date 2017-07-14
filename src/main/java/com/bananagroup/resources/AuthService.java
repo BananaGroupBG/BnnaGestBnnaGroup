@@ -32,7 +32,9 @@ public class AuthService extends JSONService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response authenticateCredentials(@HeaderParam("username") String username, // Pregunta headerParam  ==email¿?
+	public Response authenticateCredentials(@HeaderParam("username") String username, // Pregunta
+																						// headerParam
+																						// ==email¿?
 			@HeaderParam("password") String password)
 			throws JsonGenerationException, JsonMappingException, IOException {
 		logger.info("Authenticating User Credentials...");
@@ -75,7 +77,8 @@ public class AuthService extends JSONService {
 
 		// Create the Claims, which will be the content of the JWT
 		JwtClaims claims = new JwtClaims();
-		claims.setIssuer("com.bananagroup"); // who creates the token and signs it
+		claims.setIssuer("com.bananagroup"); // who creates the token and signs
+												// it
 		claims.setExpirationTimeMinutesInTheFuture(10); // token will expire (10
 														// minutes from now)
 		claims.setGeneratedJwtId(); // a unique identifier for the token

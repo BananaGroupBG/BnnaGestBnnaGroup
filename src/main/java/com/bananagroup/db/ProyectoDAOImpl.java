@@ -58,7 +58,6 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 
 	@Override
 	public boolean delProyecto(int pid) {
-		Proyecto proyectoABorrar = null;
 
 		try {
 			Connection conn = this.datasource.getConnection();
@@ -75,14 +74,13 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 
 		} catch (Exception e) {
 			logger.severe("Error en la conexión de BBDD:" + e);
-			proyectoABorrar = null;
+			return false;
 		}
 		return true;
 	}
 
 	@Override
 	public boolean insertProyecto(Proyecto proyecto) {
-		Proyecto proyectoAInsertar = null;
 
 		try {
 			Connection conn = this.datasource.getConnection();
@@ -103,7 +101,7 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 
 		} catch (Exception e) {
 			logger.severe("Error en la conexión de BBDD:" + e);
-			proyectoAInsertar = null;
+			return false;
 		}
 		return true;
 	}
@@ -125,6 +123,7 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 			pstm.setString(3, "fechaI");
 			pstm.setString(4, "responsable");
 			pstm.setString(5, "activo");
+			pstm.setString(6, "pid");
 
 			ResultSet rs = pstm.executeQuery();
 			// ----------------------

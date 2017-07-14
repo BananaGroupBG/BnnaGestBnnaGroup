@@ -57,21 +57,84 @@ public final class TareaDAOImpl extends TareaDAO {
 
 	@Override
 	public boolean delTarea(int tid) {
-		return false;
+
+		try {
+			Connection conn = this.datasource.getConnection();
+
+			String sql = "";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, tid);
+			ResultSet rs = pstm.executeQuery();
+			// ----------------------
+			pstm.close();
+			conn.close();
+
+			logger.info("Conexión exitosa");
+
+		} catch (Exception e) {
+			logger.severe("Error en la conexión de BBDD:" + e);
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean insertTarea(Tarea tarea) {
-		return false;
+
+		try {
+			Connection conn = this.datasource.getConnection();
+
+			String sql = "INSERT INTO tarea VALUES (?,?,?);";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setString(1, "descripcion");
+			pstm.setString(2, "responsable");
+			pstm.setString(3, "proyecto_padre");
+			ResultSet rs = pstm.executeQuery();
+			// ----------------------
+			pstm.close();
+			conn.close();
+
+			logger.info("Conexión exitosa");
+
+		} catch (Exception e) {
+			logger.severe("Error en la conexión de BBDD:" + e);
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean updateTarea(Tarea tarea) {
-		return false;
+
+		try {
+			Connection conn = this.datasource.getConnection();
+
+			String sql = "UPDATE tarea t SET t.descripcion=?,t.responsable=? WHERE t.tid=?";// 1
+																							// Solo
+																							// cambio
+
+			PreparedStatement pstm = conn.prepareStatement(sql);
+
+			pstm.setString(1, "descripcion");
+			pstm.setString(2, "responsable");
+			pstm.setString(3, "tid");
+
+			ResultSet rs = pstm.executeQuery();
+			// ----------------------
+			pstm.close();
+			conn.close();
+
+			logger.info("Conexión exitosa");
+
+		} catch (Exception e) {
+			logger.severe("Error en la conexión de BBDD:" + e);
+			return false;
+		}
+		return true;
 	}
 
 	@Override
-	public List<Tarea> getUserTareas(int pid) {
+	public List<Tarea> getUserTareas(int uid) {
 		List<Tarea> listADevolver = new ArrayList<Tarea>();
 
 		try {
@@ -80,16 +143,14 @@ public final class TareaDAOImpl extends TareaDAO {
 			// ordenes sql
 			String sql = "SELECT t.*,u.* FROM tarea t, usuario u WHERE t.proyecto_padre=? AND u.uid=t.responsable";
 			PreparedStatement pstm = conn.prepareStatement(sql);
-			pstm.setInt(1, pid);
+			pstm.setString(1, "proyecto_padre");
+			pstm.setInt(2, uid);
 
 			ResultSet rs = pstm.executeQuery();
 
 			while (rs.next()) {
-				listADevolver.add(new Tarea(rs.getInt("tid"), rs.getString("descripcion"),
-						new Usuario(rs.getInt("uid"), rs.getString("nombre"), rs.getString("email"),
-								rs.getString("password")),
-						new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"),
-								rs.getDate("fechaI"), null, rs.getString("activo"), null)));
+				listADevolver.add(new Tarea(rs.getInt("tid"), rs.getString("descripcion"), new Usuario(rs.getInt("uid"),
+						rs.getString("nombre"), rs.getString("email"), rs.getString("password")), null));
 
 			}
 
