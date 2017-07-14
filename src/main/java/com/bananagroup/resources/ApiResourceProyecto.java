@@ -21,32 +21,30 @@ import com.bananagroup.db.ProyectoDAO;
 import com.bananagroup.models.*;
 import com.bananagroup.resources.JSONService;
 
-
 @Path("/proyectos")
 public class ApiResourceProyecto extends JSONService {
-	private static List<Proyecto> listaProyectos;	
+	private static List<Proyecto> listaProyectos;
 
 	/* GET /proyectos */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProjectList(@HeaderParam("token") String token) {
-		
+
 		int userUid = this.getUserUidFromToken(token);
-		Response mResponse=null;				
-		
+		Response mResponse = null;
 
 		if (userUid == 0) {
-			StatusMessage statusMessage = new StatusMessage(Status.FORBIDDEN.getStatusCode(),"Access Denied for this functionality !!!");
-			mResponse=Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
-		}else { 
+			StatusMessage statusMessage = new StatusMessage(Status.FORBIDDEN.getStatusCode(),
+					"Access Denied for this functionality !!!");
+			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
+		} else {
 			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
-			mResponse=Response.status(200).entity(pDao.getUserProyectos(userUid)).build();
-		
+			mResponse = Response.status(200).entity(pDao.getUserProyectos(userUid)).build();
+
 		}
-		
-	
-		return mResponse;				
-		
+
+		return mResponse;
+
 	}
 
 	/* POST /proyectos */
