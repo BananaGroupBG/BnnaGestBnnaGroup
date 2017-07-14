@@ -6,8 +6,13 @@ public class StatusMessage {
 
 	private Integer status;
 	private String message;
-	
+
 	public StatusMessage() {
+	}
+
+	public StatusMessage(int status, String message) {
+		this.status = status;
+		this.message = message;
 	}
 
 	@JsonProperty(value = "status_code")

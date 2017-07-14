@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import org.apache.tomcat.dbcp.dbcp2.PStmtKey;
+
 import com.bananagroup.models.Proyecto;
 import com.bananagroup.models.Tarea;
 import com.bananagroup.models.Usuario;
@@ -58,23 +60,6 @@ public final class TareaDAOImpl extends TareaDAO {
 	@Override
 	public boolean delTarea(int tid) {
 
-		try {
-			Connection conn = this.datasource.getConnection();
-
-			String sql = "";
-			PreparedStatement pstm = conn.prepareStatement(sql);
-			pstm.setInt(1, tid);
-			ResultSet rs = pstm.executeQuery();
-			// ----------------------
-			pstm.close();
-			conn.close();
-
-			logger.info("Conexión exitosa");
-
-		} catch (Exception e) {
-			logger.severe("Error en la conexión de BBDD:" + e);
-			return false;
-		}
 		return true;
 	}
 
