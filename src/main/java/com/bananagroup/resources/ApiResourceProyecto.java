@@ -20,6 +20,8 @@ import com.bananagroup.db.DAOFactory;
 import com.bananagroup.db.ProyectoDAO;
 import com.bananagroup.models.*;
 import com.bananagroup.resources.JSONService;
+import com.netmind.modelos.StatusMessage;
+import com.netmind.modelos.Usuario;
 
 @Path("/proyectos")
 public class ApiResourceProyecto extends JSONService {
@@ -28,7 +30,7 @@ public class ApiResourceProyecto extends JSONService {
 	/* GET /proyectos */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProjectList(@HeaderParam("token") String token) {
+	public Response getProjectList(int listaProyectos, @HeaderParam("token") String token) {
 
 		int userUid = this.getUserUidFromToken(token);
 		Response mResponse = null;
@@ -39,38 +41,55 @@ public class ApiResourceProyecto extends JSONService {
 			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
 		} else {
 			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
+			pDao.getUserProyectos(listaProyectos);
 			mResponse = Response.status(200).entity(pDao.getUserProyectos(userUid)).build();
-
 		}
-
 		return mResponse;
-
 	}
 
 	/* POST /proyectos */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Message insertProject(Proyecto nuevoProyecto) {
-		listaProyectos.add(nuevoProyecto);
-		return new Message("Proyecto añadido");
+	public Response insertProject(Proyecto nuevoProyecto, @HeaderParam("token") String token) {
+
+		int userUid = this.getUserUidFromToken(token);
+		Response mResponse = null;
+
+		if (userUid == 0) {
+			StatusMessage statusMessage = new StatusMessage(Status.FORBIDDEN.getStatusCode(),
+					"Access Denied for this functionality !!!");
+			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
+		} else {
+			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
+			pDao.insertProyecto(nuevoProyecto);
+			StatusMessage statusMessage = new StatusMessage(Status.ACCEPTED.getStatusCode(), "Proyecto añadido!!");
+			mResponse = Response.status(200).entity(statusMessage).build();
+		}
+
+		return mResponse;
 	}
 
 	/* GET /Proyectos */
 	@Path("/{pid}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Proyecto getProject(@PathParam("pid") int pid) {
+	public Response getProject(@PathParam("pid") int pid, @HeaderParam("token") String token) {
 
-		Proyecto unProyecto = new Proyecto();
-		for (Proyecto proyecto : listaProyectos) {
-			if (proyecto.getPid() == pid) {
-				unProyecto = proyecto;
-				break;
-			}
+		int userUid = this.getUserUidFromToken(token);
+		Response mResponse = null;
+
+		if (userUid == 0) {
+			StatusMessage statusMessage = new StatusMessage(Status.FORBIDDEN.getStatusCode(),
+					"Access Denied for this functionality !!!");
+			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
+		} else {
+			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
+			pDao.getProyecto(pid);
+			mResponse = Response.status(200).entity(pDao.getProyecto(pid)).build();
 		}
 
-		return unProyecto;
+		return mResponse;
 	}
 
 	/* PUT /Proyectos */
@@ -78,30 +97,43 @@ public class ApiResourceProyecto extends JSONService {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Message updateProject(@PathParam("pid") int pid, Proyecto aProyecto) {
-		for (Proyecto proyecto : listaProyectos) {
-			if (proyecto.getPid() == pid) {
-				listaProyectos.remove(proyecto);
-				listaProyectos.add(aProyecto);
-				break;
-			}
+	public Response updateProject(@PathParam("pid") int pid, Proyecto aProyecto, @HeaderParam("token") String token) {
+		int userUid = this.getUserUidFromToken(token);
+		Response mResponse = null;
+
+		if (userUid == 0) {
+			StatusMessage statusMessage = new StatusMessage(Status.FORBIDDEN.getStatusCode(),
+					"Access Denied for this functionality !!!");
+			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
+		} else {
+			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
+			pDao.updateProyecto(aProyecto);
+			mResponse = Response.status(200).entity(pDao.updateProyecto(aProyecto)).build();
 		}
 
-		return new Message("Proyecto modificado");
+		return mResponse;
 	}
 
 	/* DELETE /Proyectos */
 	@Path("/{pid}")
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public Message deleteProject(@PathParam("pid") int pid) {
-		for (Proyecto proyecto : listaProyectos) {
-			if (proyecto.getPid() == pid) {
-				listaProyectos.remove(proyecto);
-				break;
-			}
+	public Response deleteProject(@PathParam("pid") int pid, @HeaderParam("token") String token) {
+
+		int userUid = this.getUserUidFromToken(token);
+		Response mResponse = null;
+
+		if (userUid == 0) {
+			StatusMessage statusMessage = new StatusMessage(Status.FORBIDDEN.getStatusCode(),
+					"Access Denied for this functionality !!!");
+			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
+		} else {
+			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
+			pDao.delProyecto(pid);
+			StatusMessage statusMessage = new StatusMessage(Status.ACCEPTED.getStatusCode(), "Proyecto borrado!!");
+			mResponse = Response.status(200).entity(statusMessage).build();
 		}
 
-		return new Message("Proyecto borrado");
+		return mResponse;
 	}
 }
