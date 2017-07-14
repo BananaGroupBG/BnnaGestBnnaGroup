@@ -9,9 +9,6 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
-import org.apache.tomcat.dbcp.dbcp2.PStmtKey;
-
-import com.bananagroup.models.Proyecto;
 import com.bananagroup.models.Tarea;
 import com.bananagroup.models.Usuario;
 
@@ -60,6 +57,25 @@ public final class TareaDAOImpl extends TareaDAO {
 	@Override
 	public boolean delTarea(int tid) {
 
+		try {
+			Connection conn = this.datasource.getConnection();
+
+			String sql = "DELETE t.* FROM tarea t WHERE tid=?";
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, tid);
+			ResultSet rs = pstm.executeQuery();
+			// ----------------------
+			pstm.close();
+			// ----------------------
+			conn.close();
+
+			logger.info("Conexión exitosa");
+
+		} catch (Exception e) {
+			logger.severe("Error en la conexión de BBDD:" + e);
+			return false;
+		}
+		logger.info("Tarea borrada");
 		return true;
 	}
 
@@ -126,10 +142,9 @@ public final class TareaDAOImpl extends TareaDAO {
 			Connection conn = this.datasource.getConnection();
 
 			// ordenes sql
-			String sql = "SELECT t.*,u.* FROM tarea t, usuario u WHERE t.proyecto_padre=? AND u.uid=t.responsable";
+			String sql = "SELECT t.* FROM tarea t, usuario u WHERE t.responsable=? AND u.uid=t.responsable";
 			PreparedStatement pstm = conn.prepareStatement(sql);
-			pstm.setString(1, "proyecto_padre");
-			pstm.setInt(2, uid);
+			pstm.setInt(1, uid);
 
 			ResultSet rs = pstm.executeQuery();
 
