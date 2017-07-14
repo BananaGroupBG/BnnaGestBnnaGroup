@@ -134,7 +134,36 @@ public class JSONService {
 		return Response.status(200).entity(jwt).build();
 	}
 
-	
+	@GET
+	@Path("/owndata")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getOwnData(@HeaderParam("token") String token) {
+		logger.log(Level.INFO, "token:" + token);
+		int userUid= 0;
+
+		userUid = this.getUserUidFromToken(token);
+
+		if (userUid == 0) {
+			StatusMessage statusMessage = new StatusMessage();
+			statusMessage.setStatus(Status.FORBIDDEN.getStatusCode());
+			statusMessage.setMessage("Access Denied for this functionality !!!");
+			return Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
+		}
+
+		Usuario user = null;
+		UsuarioDAO userDAO;
+		int uid = 0;
+
+		try {
+			userDAO = (UsuarioDAO) DAOFactory.getDAO("usuario");			
+			uid = user.getUid();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return Response.status(200).entity(user).build();
+	}
+
 
 	/* AUX */
 	protected int getUserUidFromToken(String token) {
