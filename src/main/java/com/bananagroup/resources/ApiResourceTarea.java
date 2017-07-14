@@ -3,6 +3,7 @@ package com.bananagroup.resources;
 import java.util.List;
 
 import com.bananagroup.db.DAOFactory;
+import com.bananagroup.db.ProyectoDAO;
 import com.bananagroup.db.TareaDAO;
 import com.bananagroup.models.*;
 import com.sun.jersey.api.client.ClientResponse.Status;
@@ -48,9 +49,22 @@ public class ApiResourceTarea extends JSONService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Message insertTask(Tarea nuevaTarea) {
-		lasTareas.add(nuevaTarea);
-		return new Message("Tarea añadida");
+	public Response insertTask(Tarea nuevaTarea, @HeaderParam("token") String token) {
+		int userUid = this.getUserUidFromToken(token);
+		Response mResponse = null;
+
+		if (userUid == 0) {
+			StatusMessage statusMessage = new StatusMessage(Status.FORBIDDEN.getStatusCode(),
+					"Access Denied for this functionality !!!");
+			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
+		} else {
+			TareaDAO tDao = (TareaDAO) DAOFactory.getDAO("tarea");
+			tDao.insertTarea(nuevaTarea);
+			StatusMessage statusMessage = new StatusMessage(Status.ACCEPTED.getStatusCode(), "Tarea añadida!!");
+			mResponse = Response.status(Status.ACCEPTED.getStatusCode()).entity(statusMessage).build();
+		}
+
+		return mResponse;
 	}
 
 	// 1-.Obtener tarea/tid GET/ Tarea

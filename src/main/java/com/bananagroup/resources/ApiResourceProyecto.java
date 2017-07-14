@@ -20,12 +20,9 @@ import com.bananagroup.db.DAOFactory;
 import com.bananagroup.db.ProyectoDAO;
 import com.bananagroup.models.*;
 import com.bananagroup.resources.JSONService;
-import com.netmind.modelos.StatusMessage;
-import com.netmind.modelos.Usuario;
 
 @Path("/proyectos")
 public class ApiResourceProyecto extends JSONService {
-	private static List<Proyecto> listaProyectos;
 
 	/* GET /proyectos */
 	@GET
@@ -41,9 +38,9 @@ public class ApiResourceProyecto extends JSONService {
 			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
 		} else {
 			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
-			pDao.getUserProyectos(listaProyectos);
 			mResponse = Response.status(200).entity(pDao.getUserProyectos(userUid)).build();
 		}
+		
 		return mResponse;
 	}
 
@@ -64,7 +61,7 @@ public class ApiResourceProyecto extends JSONService {
 			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
 			pDao.insertProyecto(nuevoProyecto);
 			StatusMessage statusMessage = new StatusMessage(Status.ACCEPTED.getStatusCode(), "Proyecto añadido!!");
-			mResponse = Response.status(200).entity(statusMessage).build();
+			mResponse = Response.status(Status.ACCEPTED.getStatusCode()).entity(statusMessage).build();
 		}
 
 		return mResponse;
@@ -85,7 +82,6 @@ public class ApiResourceProyecto extends JSONService {
 			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
 		} else {
 			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
-			pDao.getProyecto(pid);
 			mResponse = Response.status(200).entity(pDao.getProyecto(pid)).build();
 		}
 
@@ -108,7 +104,8 @@ public class ApiResourceProyecto extends JSONService {
 		} else {
 			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
 			pDao.updateProyecto(aProyecto);
-			mResponse = Response.status(200).entity(pDao.updateProyecto(aProyecto)).build();
+			StatusMessage statusMessage = new StatusMessage(Status.ACCEPTED.getStatusCode(), "Proyecto modificado!!");
+			mResponse = Response.status(200).entity(statusMessage).build();
 		}
 
 		return mResponse;
