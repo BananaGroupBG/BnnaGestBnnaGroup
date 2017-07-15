@@ -11,9 +11,9 @@
 
 		<property name="titulo"></property>
 		<property name="descripcion"></property>
-        <property name="fechaI"></property>
+		<property name="fechaI"></property>
 		<property name="responsable"></property>
-        <property name="activo"></property>
+		<property name="activo"></property>
 		<property name="listaTareas"></property>
 
 	</class>

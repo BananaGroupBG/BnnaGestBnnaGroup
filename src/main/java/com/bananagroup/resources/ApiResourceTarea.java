@@ -71,16 +71,21 @@ public class ApiResourceTarea extends JSONService {
 	@Path("/{tid}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Tarea getTask(@PathParam("tid") int tid) {
+	public Response getTask(@PathParam("tid") int tid, @HeaderParam("token") String token) {
 
-		Tarea unaTarea = new Tarea(0, null, null, null);
-		for (Tarea taska : lasTareas) {
-			if (taska.getTid() == tid) {
-				unaTarea = taska;
-				break;
-			}
+		int userUid = this.getUserUidFromToken(token);
+		Response mResponse = null;
+
+		if (userUid == 0) {
+			StatusMessage statusMessage = new StatusMessage(Status.FORBIDDEN.getStatusCode(),
+					"Access Denied for this functionality !!!");
+			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
+		} else {
+			TareaDAO tDao = (TareaDAO) DAOFactory.getDAO("tarea");
+			mResponse = Response.status(200).entity(tDao.getTarea(tid)).build();
 		}
-		return unaTarea;
+
+		return mResponse;
 	}
 
 	/* Actualizar tarea / PUT /Tarea */
@@ -88,30 +93,43 @@ public class ApiResourceTarea extends JSONService {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Message updateTask(@PathParam("tid") int tid, Tarea aTarea) {
-		for (Tarea tarea : lasTareas) {
-			if (tarea.getTid() == tid) {
-				lasTareas.remove(tarea);
-				lasTareas.add(aTarea);
-				break;
-			}
+	public Response updateTask(@PathParam("tid") int tid, Tarea aTarea, @HeaderParam("token") String token) {
+		int userUid = this.getUserUidFromToken(token);
+		Response mResponse = null;
+
+		if (userUid == 0) {
+			StatusMessage statusMessage = new StatusMessage(Status.FORBIDDEN.getStatusCode(),
+					"Access Denied for this functionality !!!");
+			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
+		} else {
+			TareaDAO tDao = (TareaDAO) DAOFactory.getDAO("tarea");
+			tDao.updateTarea(aTarea);
+			StatusMessage statusMessage = new StatusMessage(Status.ACCEPTED.getStatusCode(), "Tarea modificado!!");
+			mResponse = Response.status(200).entity(statusMessage).build();
 		}
 
-		return new Message("Tarea modificada");
+		return mResponse;
 	}
 
 	/* Borrar tarea / DELETE /Tarea */
 	@Path("/{tid}")
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public Message deleteTask(@PathParam("tid") int tid) {
-		for (Tarea tarea : lasTareas) {
-			if (tarea.getTid() == tid) {
-				lasTareas.remove(tarea);
-				break;
-			}
+	public Response deleteTask(@PathParam("tid") int tid, @HeaderParam("token") String token) {
+		int userUid = this.getUserUidFromToken(token);
+		Response mResponse = null;
+
+		if (userUid == 0) {
+			StatusMessage statusMessage = new StatusMessage(Status.FORBIDDEN.getStatusCode(),
+					"Access Denied for this functionality !!!");
+			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
+		} else {
+			TareaDAO tDao = (TareaDAO) DAOFactory.getDAO("tarea");
+			tDao.delTarea(tid);
+			StatusMessage statusMessage = new StatusMessage(Status.ACCEPTED.getStatusCode(), "Tarea borrada!!");
+			mResponse = Response.status(200).entity(statusMessage).build();
 		}
 
-		return new Message("Tarea borrada");
+		return mResponse;
 	}
 }

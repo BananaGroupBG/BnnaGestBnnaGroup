@@ -21,12 +21,12 @@
 		<property name="hibernate.connection.password">
 			root
 		</property>
-		
+
 		<property name="hibernate.hbm2ddl.auto">update</property>
 
 		<!-- List of XML mapping files -->
 		<mapping resource="tarea.hbm.xml" />
-<mapping class="com.bananagroup.models.Proyecto"/>
+		<mapping class="com.bananagroup.models.Proyecto" />
 
 	</session-factory>
 </hibernate-configuration>
