@@ -103,7 +103,7 @@ public class JSONService {
 
 		// Create the Claims, which will be the content of the JWT
 		JwtClaims claims = new JwtClaims();
-		claims.setIssuer("netmind.com"); // who creates the token and signs it
+		claims.setIssuer("com.bananagroup"); // who creates the token and signs it
 		claims.setExpirationTimeMinutesInTheFuture(10); // token will expire (10
 														// minutes from now)
 		claims.setGeneratedJwtId(); // a unique identifier for the token
