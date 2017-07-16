@@ -57,83 +57,6 @@ public class JSONService {
 
 	}
 
-	@Path("/authenticate")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response authenticateCredentials(@HeaderParam("username") String username,
-			@HeaderParam("password") String password)
-			throws JsonGenerationException, JsonMappingException, IOException {
-		logger.info("Authenticating User Credentials...");
-
-		if (username == null) {
-			StatusMessage statusMessage = new StatusMessage();
-			statusMessage.setStatus(Status.PRECONDITION_FAILED.getStatusCode());
-			statusMessage.setMessage("Username value is missing!!!");
-			return Response.status(Status.PRECONDITION_FAILED.getStatusCode()).entity(statusMessage).build();
-		}
-
-		if (password == null) {
-			StatusMessage statusMessage = new StatusMessage();
-			statusMessage.setStatus(Status.PRECONDITION_FAILED.getStatusCode());
-			statusMessage.setMessage("Password value is missing!!!");
-			return Response.status(Status.PRECONDITION_FAILED.getStatusCode()).entity(statusMessage).build();
-		}
-
-		Usuario user = null;
-		UsuarioDAO usuarioDAO;
-		try {
-			usuarioDAO = (UsuarioDAO) DAOFactory.getDAO("usuario");
-			user = usuarioDAO.getUsuario(username, password);
-			logger.log(Level.INFO, "user:" + user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		if (user == null) {
-			StatusMessage statusMessage = new StatusMessage();
-			statusMessage.setStatus(Status.FORBIDDEN.getStatusCode());
-			statusMessage.setMessage("Access Denied for this functionality !!!");
-			return Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
-		}
-
-		RsaJsonWebKey senderJwk = (RsaJsonWebKey) jwkList.get(0);
-
-		senderJwk.setKeyId("1");
-		logger.info("JWK (1) ===> " + senderJwk.toJson());
-
-		// Create the Claims, which will be the content of the JWT
-		JwtClaims claims = new JwtClaims();
-		claims.setIssuer("com.bananagroup"); // who creates the token and signs it
-		claims.setExpirationTimeMinutesInTheFuture(10); // token will expire (10
-														// minutes from now)
-		claims.setGeneratedJwtId(); // a unique identifier for the token
-		claims.setIssuedAtToNow(); // when the token was issued/created (now)
-		claims.setNotBeforeMinutesInThePast(2); // time before which the token
-												// is not yet valid (2 minutes
-												// ago)
-		claims.setSubject(""+user.getUid()); // the subject/principal is whom
-											// the token is about
-		claims.setStringListClaim("roles", "client"); //
-		// multi-valued claims for roles
-		JsonWebSignature jws = new JsonWebSignature();
-
-		jws.setPayload(claims.toJson());
-
-		jws.setKeyIdHeaderValue(senderJwk.getKeyId());
-		jws.setKey(senderJwk.getPrivateKey());
-
-		jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
-
-		String jwt = null;
-		try {
-			jwt = jws.getCompactSerialization();
-		} catch (JoseException e) {
-			e.printStackTrace();
-		}
-
-		return Response.status(200).entity(jwt).build();
-	}
-
 	@GET
 	@Path("/owndata")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -180,7 +103,7 @@ public class JSONService {
 
 			// Validate Token's authenticity and check claims
 			JwtConsumer jwtConsumer = new JwtConsumerBuilder().setRequireExpirationTime()
-					.setAllowedClockSkewInSeconds(30).setRequireSubject().setExpectedIssuer("netmind.com")
+					.setAllowedClockSkewInSeconds(30).setRequireSubject().setExpectedIssuer("com.bananagroup")
 					.setVerificationKey(jwk.getKey()).build();
 
 			// Validate the JWT and process it to the Claims
