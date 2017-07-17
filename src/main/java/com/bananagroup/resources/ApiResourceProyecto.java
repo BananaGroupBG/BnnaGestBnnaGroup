@@ -27,7 +27,7 @@ public class ApiResourceProyecto extends JSONService {
 	/* GET /proyectos */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProjectList(int listaProyectos, @HeaderParam("token") String token) {
+	public Response getProjectList(@HeaderParam("token") String token) {
 
 		int userUid = this.getUserUidFromToken(token);
 		Response mResponse = null;
@@ -41,29 +41,6 @@ public class ApiResourceProyecto extends JSONService {
 			mResponse = Response.status(200).entity(pDao.getUserProyectos(userUid)).build();
 		}
 		
-		return mResponse;
-	}
-
-	/* POST /proyectos */
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response insertProject(Proyecto nuevoProyecto, @HeaderParam("token") String token) {
-
-		int userUid = this.getUserUidFromToken(token);
-		Response mResponse = null;
-
-		if (userUid == 0) {
-			StatusMessage statusMessage = new StatusMessage(Status.FORBIDDEN.getStatusCode(),
-					"Access Denied for this functionality !!!");
-			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
-		} else {
-			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
-			pDao.insertProyecto(nuevoProyecto);
-			StatusMessage statusMessage = new StatusMessage(Status.ACCEPTED.getStatusCode(), "Proyecto añadido!!");
-			mResponse = Response.status(Status.ACCEPTED.getStatusCode()).entity(statusMessage).build();
-		}
-
 		return mResponse;
 	}
 

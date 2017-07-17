@@ -62,9 +62,8 @@ public class JSONService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getOwnData(@HeaderParam("token") String token) {
 		logger.log(Level.INFO, "token:" + token);
-		int userUid= 0;
 
-		userUid = this.getUserUidFromToken(token);
+		int userUid = this.getUserUidFromToken(token);
 
 		if (userUid == 0) {
 			StatusMessage statusMessage = new StatusMessage();
