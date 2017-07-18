@@ -89,8 +89,7 @@ public class JSONService {
 
 	/* AUX */
 	protected int getUserUidFromToken(String token) {
-		if (token == null)
-			return 0;
+		if (token == null) return 0;
 
 		int userUid= 0;
 
