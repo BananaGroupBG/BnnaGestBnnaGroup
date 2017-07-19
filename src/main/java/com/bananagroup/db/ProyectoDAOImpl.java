@@ -157,9 +157,13 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 			Connection conn = this.datasource.getConnection();
 
 			// ordenes sql
-			String sql = "SELECT p.* FROM proyecto p, usuario u WHERE u.uid=?";
+			String sql = "SELECT p.*,u.* FROM proyecto p, usuario u WHERE u.uid=? AND  p.responsable=u.uid";
+			
+			
 			PreparedStatement pstm = conn.prepareStatement(sql);
+			
 			pstm.setInt(1, uid);
+			logger.info("**** Query:"+pstm.toString()+":"+uid);
 
 			ResultSet rs = pstm.executeQuery();
 
