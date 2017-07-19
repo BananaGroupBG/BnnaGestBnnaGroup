@@ -86,8 +86,8 @@ public class AuthService extends JSONService {
 		claims.setNotBeforeMinutesInThePast(2); // time before which the token
 												// is not yet valid (2 minutes
 												// ago)
-		claims.setSubject(""+user.getUid()); // the subject/principal is whom
-											// the token is about
+		claims.setSubject("" + user.getUid()); // the subject/principal is whom
+												// the token is about
 		claims.setStringListClaim("roles", "client"); //
 		// multi-valued claims for roles
 		JsonWebSignature jws = new JsonWebSignature();
