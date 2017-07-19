@@ -29,9 +29,9 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 		try {
 			Connection conn = this.datasource.getConnection();
 			// ordenes sql
-			String sql = "SELECT p.* FROM proyecto p WHERE p.pid=? LIMIT 1";
+			String sql = "SELECT p.*,u.* FROM proyecto p, usuario u WHERE p.pid=? AND p.responsable=u.uid LIMIT 1";
 			PreparedStatement pstm = conn.prepareStatement(sql);
-			pstm.setInt(1, pid);
+			pstm.setString(1, "pid");
 
 			ResultSet rs = pstm.executeQuery();
 
@@ -157,7 +157,7 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 			Connection conn = this.datasource.getConnection();
 
 			// ordenes sql
-			String sql = "SELECT p.*,u.* FROM proyecto p, usuario u WHERE u.uid=? AND  p.responsable=u.uid";
+			String sql = "SELECT p.*,u.* FROM proyecto p, usuario u WHERE u.uid=? AND p.responsable=u.uid";
 			
 			
 			PreparedStatement pstm = conn.prepareStatement(sql);
