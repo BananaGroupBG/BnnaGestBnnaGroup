@@ -142,7 +142,7 @@ public final class TareaDAOImpl extends TareaDAO {
 			Connection conn = this.datasource.getConnection();
 
 			// ordenes sql
-			String sql = "SELECT t.*,u.* FROM tarea t, usuario u WHERE u.uid=? AND t.responsable=u.uid";
+			String sql = "SELECT t.*,u.*,p.* FROM tarea t, usuario u, proyecto p WHERE u.uid=? AND t.responsable=u.uid";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, uid);
 
