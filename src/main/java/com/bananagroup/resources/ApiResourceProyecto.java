@@ -18,6 +18,7 @@ import com.sun.jersey.api.client.ClientResponse.Status;
 
 import com.bananagroup.db.DAOFactory;
 import com.bananagroup.db.ProyectoDAO;
+import com.bananagroup.db.TareaDAO;
 import com.bananagroup.models.*;
 import com.bananagroup.resources.JSONService;
 
@@ -40,7 +41,28 @@ public class ApiResourceProyecto extends JSONService {
 			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
 			mResponse = Response.status(200).entity(pDao.getUserProyectos(userUid)).build();
 		}
-		
+
+		return mResponse;
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response insertProject(Proyecto nuevoProyecto, @HeaderParam("token") String token) {
+		int userUid = this.getUserUidFromToken(token);
+		Response mResponse = null;
+
+		if (userUid == 0) {
+			StatusMessage statusMessage = new StatusMessage(Status.FORBIDDEN.getStatusCode(),
+					"Access Denied for this functionality !!!");
+			mResponse = Response.status(Status.FORBIDDEN.getStatusCode()).entity(statusMessage).build();
+		} else {
+			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
+			pDao.insertProyecto(nuevoProyecto);
+			StatusMessage statusMessage = new StatusMessage(Status.ACCEPTED.getStatusCode(), "Proyecto añadida!!");
+			mResponse = Response.status(Status.ACCEPTED.getStatusCode()).entity(statusMessage).build();
+		}
+
 		return mResponse;
 	}
 

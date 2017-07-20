@@ -142,15 +142,15 @@ public final class TareaDAOImpl extends TareaDAO {
 			Connection conn = this.datasource.getConnection();
 
 			// ordenes sql
-			String sql = "SELECT t.* FROM tarea t, usuario u WHERE t.responsable=? AND u.uid=t.responsable";
+			String sql = "SELECT t.*,u.* FROM tarea t, usuario u WHERE u.uid=? AND t.responsable=u.uid";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, uid);
 
 			ResultSet rs = pstm.executeQuery();
 
 			while (rs.next()) {
-				listADevolver.add(new Tarea(rs.getInt("tid"), rs.getString("descripcion"), new Usuario(rs.getInt("uid"),
-						rs.getString("nombre"), rs.getString("email"), rs.getString("password")), null));
+				listADevolver.add(new Tarea(rs.getInt("tid"), rs.getString("descripcion"),
+						new Usuario(rs.getInt("uid"), rs.getString("nombre"), rs.getString("email"), null), null));
 
 			}
 
@@ -161,6 +161,7 @@ public final class TareaDAOImpl extends TareaDAO {
 			logger.info("Conexión exitosa");
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.severe("Error en la conexión de BBDD:" + e);
 			listADevolver = null;
 		}
