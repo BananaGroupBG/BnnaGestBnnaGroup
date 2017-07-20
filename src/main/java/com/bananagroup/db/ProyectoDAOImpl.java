@@ -29,18 +29,16 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 		try {
 			Connection conn = this.datasource.getConnection();
 			// ordenes sql
-			String sql = "SELECT p.*,u.* FROM proyecto p, usuario u WHERE p.pid=? AND p.responsable=u.uid LIMIT 1";
+			String sql = "SELECT p.* FROM proyecto p WHERE p.pid=? LIMIT 1";
 			PreparedStatement pstm = conn.prepareStatement(sql);
-			pstm.setString(1, "pid");
+			pstm.setInt(1, pid);
 
 			ResultSet rs = pstm.executeQuery();
 
 			if (rs.next()) {
 
 				proyectoADevolver = new Proyecto(rs.getInt("pid"), rs.getString("titulo"), rs.getString("descripcion"),
-						rs.getDate("fechaI"),
-						new Usuario(rs.getInt("uid"), rs.getString("nombre"), rs.getString("email"), null),
-						rs.getString("activo"), null);
+						rs.getDate("fechaI"), null, null, null);
 
 			}
 
@@ -62,7 +60,7 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 		try {
 			Connection conn = this.datasource.getConnection();
 
-			String sql = "DELETE t.* FROM tarea t, proyecto p WHERE proyecto_padre=?";
+			String sql = "DELETE t.*,p.* FROM tarea t, proyecto p WHERE proyecto_padre=?";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, pid);
 			ResultSet rs = pstm.executeQuery();
@@ -159,11 +157,11 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 			// ordenes sql
 
 			String sql = "SELECT p.*,u.* FROM proyecto p, usuario u WHERE u.uid=? AND p.responsable=u.uid";
-	
+
 			PreparedStatement pstm = conn.prepareStatement(sql);
-			
+
 			pstm.setInt(1, uid);
-			logger.info("**** Query:"+pstm.toString()+":"+uid);
+			logger.info("**** Query:" + pstm.toString() + ":" + uid);
 
 			ResultSet rs = pstm.executeQuery();
 
