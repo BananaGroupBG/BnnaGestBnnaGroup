@@ -92,7 +92,7 @@ public final class ProyectoDAOImpl extends ProyectoDAO {
 		try {
 			Connection conn = this.datasource.getConnection();
 
-			String sql = "INSERT INTO proyecto VALUES (?,?,?,?,?);";
+			String sql = "INSERT INTO proyecto VALUES (?,?,?,?,?)";
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setString(1, "titulo");
 			pstm.setString(2, "descripcion");

@@ -26,6 +26,8 @@
 
 		<!-- List of XML mapping files -->
 		<mapping resource="tarea.hbm.xml" />
+		<mapping class="com.banangroup.models.Tarea"/>
+		<mapping resource="proyecto.hbm.xml" />
 		<mapping class="com.bananagroup.models.Proyecto" />
 
 	</session-factory>

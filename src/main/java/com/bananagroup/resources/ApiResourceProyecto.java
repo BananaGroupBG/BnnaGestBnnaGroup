@@ -59,7 +59,7 @@ public class ApiResourceProyecto extends JSONService {
 		} else {
 			ProyectoDAO pDao = (ProyectoDAO) DAOFactory.getDAO("proyecto");
 			pDao.insertProyecto(nuevoProyecto);
-			StatusMessage statusMessage = new StatusMessage(Status.ACCEPTED.getStatusCode(), "Proyecto añadida!!");
+			StatusMessage statusMessage = new StatusMessage(Status.ACCEPTED.getStatusCode(), "Proyecto añadido!!");
 			mResponse = Response.status(Status.ACCEPTED.getStatusCode()).entity(statusMessage).build();
 		}
 
